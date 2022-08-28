@@ -28,4 +28,9 @@ class StaticPagesURLTests(TestCase):
         for address, template in urls_template_names.items():
             with self.subTest(address=address):
                 response = self.guest_client.get(address)
-                self.assertTemplateUsed(response, template, msg_prefix='Используется некорректный шаблон')
+                self.assertTemplateUsed(response,
+                                        template,
+                                        msg_prefix=('Используется'
+                                                    ' некорректный'
+                                                    ' шаблон')
+                                        )

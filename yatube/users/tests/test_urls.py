@@ -34,18 +34,22 @@ class UserURLTests(TestCase):
                 self.assertEqual(response, code, 'Ошибка в status_code')
 
     def test_guest_urls_redirect(self):
-        """Проверяем, что анонимный пользователь будет перенаправлен на страницу
-        /auth/login/ при попытке входа на недоступные URLs."""
+        """Проверяем, что анонимный пользователь будет перенаправлен
+        на страницу /auth/login/ при попытке входа на недоступные URLs."""
         url_names = {
-            reverse('users:password_change'): '/auth/login/?next=/auth/password_change/',
-            reverse('users:password_change_done'): '/auth/login/?next=/auth/password_change/done/',
+            reverse('users:password_change'):
+                '/auth/login/?next=/auth/password_change/',
+            reverse('users:password_change_done'):
+                '/auth/login/?next=/auth/password_change/done/',
         }
         for address, redirect in url_names.items():
             with self.subTest(address=address):
                 response = UserURLTests.guest.get(address, follow=True)
                 self.assertRedirects(response,
                                      redirect,
-                                     msg_prefix='Перенаправление работает некорректно'
+                                     msg_prefix=('Перенаправление'
+                                                 ' работает'
+                                                 ' некорректно')
                                      )
 
     def test_authorized_urls_status_code(self):
@@ -67,25 +71,40 @@ class UserURLTests(TestCase):
     def test_urls_uses_correct_template(self):
         """Проверяем, что URL-адрес использует корректный шаблон."""
         url_template_names = {
-            reverse('users:signup'): 'users/signup.html',
-            reverse('users:login'): 'users/login.html',
-            reverse('users:password_change'): 'users/password_change_form.html',
-            reverse('users:password_change_done'): 'users/password_change_done.html',
-            reverse('users:password_reset'): 'users/password_reset_form.html',
-            reverse('users:password_reset_done'): 'users/password_reset_done.html',
-            reverse('users:password_reset_complete'): 'users/password_reset_complete.html',
+            reverse('users:signup'):
+                'users/signup.html',
+            reverse('users:login'):
+                'users/login.html',
+            reverse('users:password_change'):
+                'users/password_change_form.html',
+            reverse('users:password_change_done'):
+                'users/password_change_done.html',
+            reverse('users:password_reset'):
+                'users/password_reset_form.html',
+            reverse('users:password_reset_done'):
+                'users/password_reset_done.html',
+            reverse('users:password_reset_complete'):
+                'users/password_reset_complete.html',
         }
         for address, template in url_template_names.items():
             with self.subTest(address=address):
                 response = UserURLTests.authorized.get(address)
-                self.assertTemplateUsed(response, template, msg_prefix='Используется некорректный шаблон')
+                self.assertTemplateUsed(response,
+                                        template,
+                                        msg_prefix=('Используется'
+                                                    ' некорректный'
+                                                    ' шаблон')
+                                        )
 
     def test_urls_y_logout_uses_correct_template(self):
         """Проверяем, что /logout/ использует корректный шаблон."""
         response = UserURLTests.authorized.get(reverse('users:logout'))
-        self.assertTemplateUsed(response, 'users/logged_out.html', msg_prefix='Используется некорректный шаблон')
+        self.assertTemplateUsed(response,
+                                'users/logged_out.html',
+                                msg_prefix='Используется некорректный шаблон')
 
     def test_y_authorized_url_logout_status_code(self):
         """Проверяем status_code на странице /logout/."""
-        response = UserURLTests.authorized.get(reverse('users:logout')).status_code
+        response = UserURLTests.authorized.get(
+            reverse('users:logout')).status_code
         self.assertEqual(response, HTTPStatus.OK, 'Ошибка в status_code')
