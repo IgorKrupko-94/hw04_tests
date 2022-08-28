@@ -35,9 +35,14 @@ class PostFormTests(TestCase):
             follow=True
         )
         self.assertRedirects(response,
-                             reverse('posts:profile', kwargs={'username': self.test_user}),
+                             reverse('posts:profile',
+                                     kwargs={'username': self.test_user}
+                                     ),
                              msg_prefix='Перенаправление работает некорректно')
-        self.assertEqual(Post.objects.count(), post_count + 1, 'Количество постов не увеличилось')
+        self.assertEqual(Post.objects.count(),
+                         post_count + 1,
+                         'Количество постов не увеличилось'
+                         )
         self.assertTrue(Post.objects.filter(
             text='Новый пост',
             group=PostFormTests.group
@@ -64,7 +69,10 @@ class PostFormTests(TestCase):
             reverse('posts:post_detail', kwargs={'post_id': post.id}),
             msg_prefix='Перенаправление работает некорректно'
         )
-        self.assertEqual(Post.objects.count(), post_count, 'Количество постов изменилось')
+        self.assertEqual(Post.objects.count(),
+                         post_count,
+                         'Количество постов изменилось'
+                         )
         self.assertTrue(Post.objects.filter(
             text='Отредактированный текст',
             group=self.group

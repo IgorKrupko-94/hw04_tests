@@ -20,17 +20,24 @@ class PostModelTest(TestCase):
         """Проверяем, что у модели Post корректно работает __str__."""
         post = PostModelTest.post
         expected_object_name = post.text[:15]
-        self.assertEqual(str(post), expected_object_name, 'Метод __str__ работает некорректно')
+        self.assertEqual(str(post),
+                         expected_object_name,
+                         'Метод __str__ работает некорректно'
+                         )
 
     def test_post_text_model(self):
         """Проверяем, что у модели Post поле text обрезается до 15 символов,
         при вызове метода __str__."""
         post = PostModelTest.post
         post_text = post.text[:15]
-        self.assertEqual(post_text, 'Тестовый пост, ', 'Поле text обрезается некорректно')
+        self.assertEqual(post_text,
+                         'Тестовый пост, ',
+                         'Поле text обрезается некорректно'
+                         )
 
     def test_post_verbose_name(self):
-        """Проверяем, что у модели Post поле verbose_name совпадает с ожидаемым."""
+        """Проверяем, что у модели Post поле verbose_name
+        совпадает с ожидаемым."""
         post = PostModelTest.post
         field_verbose_name = {
             'text': 'Текст поста',
@@ -47,7 +54,8 @@ class PostModelTest(TestCase):
                 )
 
     def test_help_text(self):
-        """Проверяем, что у модели Post поле help_text совпадает с ожидаемым."""
+        """Проверяем, что у модели Post поле help_text
+        совпадает с ожидаемым."""
         post = PostModelTest.post
         field_help_texts = {
             'text': 'Введите текст поста',
@@ -76,10 +84,17 @@ class GroupModelTest(TestCase):
         """Проверяем, что у модели Group корректно работает __str__."""
         group = GroupModelTest.group
         expected_object_name = group.title
-        self.assertEqual(str(group), expected_object_name, 'Метод __str__ работает некорректно')
+        self.assertEqual(str(group),
+                         expected_object_name,
+                         'Метод __str__ работает некорректно'
+                         )
 
     def test_group_title_model(self):
-        """Проверяем, что у модели Group при вызове метода __str__ выводится поле title."""
+        """Проверяем, что у модели Group при вызове метода __str__
+        выводится поле title."""
         group = GroupModelTest.group
         group_title = group.title
-        self.assertEqual(group_title, 'Тестовая группа', 'Ошибка при вызове метода __str__')
+        self.assertEqual(group_title,
+                         'Тестовая группа',
+                         'Ошибка при вызове метода __str__'
+                         )
