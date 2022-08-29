@@ -12,13 +12,15 @@ class PostFormTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.test_user = User.objects.create_user(username='test_user')
-        cls.test_client = Client()
-        cls.test_client.force_login(cls.test_user)
         cls.group = Group.objects.create(
             title='Тестовая группа',
             slug='test_slug',
             description='Тестовое описание'
         )
+
+    def setUp(self):
+        self.test_client = Client()
+        self.test_client.force_login(self.test_user)
 
     def test_create_post(self):
         """Проверяем, что валидная форма создаёт пост."""
@@ -27,7 +29,7 @@ class PostFormTests(TestCase):
             'text': 'Новый пост',
             'group': self.group.id,
         }
-        response = PostFormTests.test_client.post(
+        response = self.test_client.post(
             reverse('posts:post_create'),
             data=form_data,
             follow=True
@@ -57,7 +59,7 @@ class PostFormTests(TestCase):
             'text': 'Отредактированный текст',
             'group': self.group.id
         }
-        response = PostFormTests.test_client.post(
+        response = self.test_client.post(
             reverse('posts:post_edit', kwargs={'post_id': post.id}),
             data=form_data,
             follow=True
