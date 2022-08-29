@@ -33,7 +33,7 @@ class PostPagesTests(TestCase):
             group=cls.group,
         )
 
-    def test_pages_uses_correct_template(self):
+    def test_posts_pages_uses_correct_template(self):
         """Проверяем, что URL-адрес использует корректный шаблон."""
         templates_pages_names = {
             reverse('posts:index'): 'posts/index.html',

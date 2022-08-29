@@ -4,7 +4,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 
-class StaticPagesURLTests(TestCase):
+class AboutURLTests(TestCase):
     def setUp(self):
         self.guest_client = Client()
 
